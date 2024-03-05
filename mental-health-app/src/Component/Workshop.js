@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Container, Typography } from '@mui/material';
 import workshopService from './WorkshopService';
 
 const Workshop = ({ workshopId }) => {
@@ -11,19 +12,29 @@ const Workshop = ({ workshopId }) => {
   }, [workshopId]);
 
   return (
-    <div className="workshop-details">
-      {workshop ? (
-        <>
-          <h2>{workshop.title}</h2>
-          <div className="workshop-info">
-            <p>Date: {workshop.date}</p>
-            <p>Time: {workshop.time}</p>
-          </div>
-        </>
-      ) : (
-        <p>Workshop not found.</p>
-      )}
-    </div>
+    <Container maxWidth="md">
+    <Box sx={{ marginTop: 4, marginBottom: 4 }}>
+     
+       
+          <Typography variant="h2" gutterBottom>
+            {workshop.title}
+          </Typography>
+          <Box sx={{ marginBottom: 2 }}>
+            <Typography variant="body1">
+              Date: {workshop.date}
+            </Typography>
+            <Typography variant="body1">
+              Time: {workshop.time}
+            </Typography>
+          </Box>
+      
+     
+        <Typography variant="body1">
+          Workshop not found.
+        </Typography>
+     
+    </Box>
+  </Container>
   );
 };
 

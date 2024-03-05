@@ -1,37 +1,29 @@
 import React from 'react';
+import { Container, Typography, Button, Grid } from '@mui/material';
 
-const HomePage = () => {
+const Home = () => {
   return (
-    <div className="home-page">
-      <header>
-        <h1>Welcome to the Mental Health Support Network</h1>
-      </header>
-      <main>
-        <section>
-          <h2>About Us</h2>
-          <p>
-            Our mission is to provide a supportive community and valuable resources for individuals seeking mental health support and guidance, especially students facing challenges like stress, depression, and anxiety.
-          </p>
-        </section>
-        <section>
-          <h2>How We Help</h2>
-          <p>
-            We offer various resources such as articles, podcasts, videos, and educational books related to mental health. Additionally, users can participate in chatting, virtual events, and workshops focused on mental health topics.
-          </p>
-        </section>
-        <section>
-          <h2>Get Started</h2>
-          <p>
-            Sign up now to join our supportive community and access valuable resources for your mental health journey.
-          </p>
-          {/* Add sign-up button or link here */}
-        </section>
-      </main>
-      <footer>
-        {/* Add footer content here */}
-      </footer>
-    </div>
+    <Container>
+      <Typography variant="h2" align="center" gutterBottom>
+        Welcome to the Mental Health Support Network
+      </Typography>
+      <Typography variant="body1" align="center" paragraph>
+        Providing supportive community and valuable resources for students facing challenges like stress, depression, and anxiety.
+      </Typography>
+      <Grid container spacing={2} justifyContent="center">
+        <Grid item>
+          <Button variant="contained" color="primary">
+            Get Support
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button variant="outlined" color="primary">
+            Explore Resources
+          </Button>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 
-export default HomePage;
+export default Home;

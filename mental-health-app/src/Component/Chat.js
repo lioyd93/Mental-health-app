@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Container, Typography } from '@mui/material';
 import chatService from './ChatService';
 
 const Chat = ({ userId }) => {
@@ -21,6 +22,7 @@ const Chat = ({ userId }) => {
   };
 
   return (
+    <Container>
     <div className="chat">
       <h2>Chat</h2>
       <div className="message-container">
@@ -41,6 +43,7 @@ const Chat = ({ userId }) => {
         <button onClick={handleSendMessage}>Send</button>
       </div>
     </div>
+    </Container>
   );
 };
 

@@ -1,7 +1,10 @@
 import React from 'react';
+import { Container, Typography } from '@mui/material';
+
 
 const AboutPage = () => {
   return (
+    <Container>
     <div className="about-page">
       <header>
         <h1>About Us</h1>
@@ -31,6 +34,7 @@ const AboutPage = () => {
         {/* Add footer content here */}
       </footer>
     </div>
+    </Container>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Container, Typography } from '@mui/material';
 
 const LoginForm = ({ onLogin }) => {
   const [username, setUsername] = useState('');
@@ -16,6 +17,7 @@ const LoginForm = ({ onLogin }) => {
   };
 
   return (
+    <Container>
     <form className="login-form" onSubmit={handleLogin}>
       <h2>Login</h2>
       <div className="form-group">
@@ -38,6 +40,7 @@ const LoginForm = ({ onLogin }) => {
       </div>
       <button type="submit">Login</button>
     </form>
+    </Container>
   );
 };
 

@@ -1,4 +1,6 @@
 import React, { useState,  } from 'react';
+import { Container, Typography } from '@mui/material';
+
 
 const ChatPage = () => {
   // State to store chat messages
@@ -16,6 +18,7 @@ const ChatPage = () => {
   };
 
   return (
+    <Container>
     <div className="chat-page">
       <header>
         <h1>Chat</h1>
@@ -43,6 +46,7 @@ const ChatPage = () => {
         />
       </footer>
     </div>
+    </Container>
   );
 };
 

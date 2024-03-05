@@ -1,13 +1,19 @@
+// Footer.js
 import React from 'react';
+import { Container, Typography,Link } from '@mui/material';
+
 
 const Footer = () => {
-  return (
-    <footer className="footer">
-      <div className="footer-content">
-        <p>&copy; 2024 Mental Health Support Network</p>
-        <p>Contact: support@example.com</p>
-      </div>
-    </footer>
+  return (<Container>
+    <Typography variant="body2" color="text.secondary" align="center">
+      {'© '}
+      <Link color="inherit" href="#">
+        Mental Health Support Network
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+    </Container>
   );
 };
 

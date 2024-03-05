@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Container, Typography } from '@mui/material';
 import resourceService from './ResourceService';
 
 const ResourceList = ({ resourceType }) => {
@@ -11,6 +12,7 @@ const ResourceList = ({ resourceType }) => {
   }, [resourceType]);
 
   return (
+    <Container>
     <div className="resource-list">
       <h2>{resourceType.charAt(0).toUpperCase() + resourceType.slice(1)} Resources</h2>
       {resources.map(resource => (
@@ -20,6 +22,7 @@ const ResourceList = ({ resourceType }) => {
         </div>
       ))}
     </div>
+    </Container>
   );
 };
 

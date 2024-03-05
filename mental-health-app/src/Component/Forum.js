@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Container, Typography } from '@mui/material';
 import forumService from './ForumService';
 
 const Forum = () => {
@@ -11,6 +12,7 @@ const Forum = () => {
   }, []);
 
   return (
+    <Container>
     <div className="forum">
       <h2>Forum</h2>
       {posts.map(post => (
@@ -20,6 +22,7 @@ const Forum = () => {
         </div>
       ))}
     </div>
+    </Container>
   );
 };
 

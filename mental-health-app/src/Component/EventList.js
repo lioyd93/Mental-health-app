@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Container, Typography } from '@mui/material';
 import eventService from './EventService';
 
 const EventList = () => {
@@ -11,6 +12,7 @@ const EventList = () => {
   }, []);
 
   return (
+    <Container>
     <div className="event-list">
       <h2>Events</h2>
       {events.map(event => (
@@ -23,6 +25,7 @@ const EventList = () => {
         </div>
       ))}
     </div>
+    </Container>
   );
 };
 

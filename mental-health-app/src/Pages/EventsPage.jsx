@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Container, Typography } from '@mui/material';
+
 
 const EventsPage = () => {
   // State to store events
@@ -20,6 +22,7 @@ const EventsPage = () => {
   }, []);
 
   return (
+    <Container>
     <div className="events-page">
       <header>
         <h1>Events</h1>
@@ -41,6 +44,7 @@ const EventsPage = () => {
         {/* Add footer content here */}
       </footer>
     </div>
+    </Container>
   );
 };
 

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Container, Typography } from '@mui/material';
+
 
 const ForumPage = () => {
   // State to store forum posts
@@ -19,6 +21,7 @@ const ForumPage = () => {
   }, []);
 
   return (
+    <Container>
     <div className="forum-page">
       <header>
         <h1>Forum</h1>
@@ -37,6 +40,7 @@ const ForumPage = () => {
         {/* Add footer content here */}
       </footer>
     </div>
+    </Container>
   );
 };
 
