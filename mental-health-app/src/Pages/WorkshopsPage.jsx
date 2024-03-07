@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Container } from '@mui/material';
 
 const WorkshopsPage = () => {
   // State to store workshops
@@ -20,7 +21,9 @@ const WorkshopsPage = () => {
   }, []);
 
   return (
+    <Container>
     <div className="workshops-page">
+      
       <header>
         <h1>Workshops</h1>
       </header>
@@ -41,6 +44,7 @@ const WorkshopsPage = () => {
         {/* Add footer content here */}
       </footer>
     </div>
+    </Container>
   );
 };
 
