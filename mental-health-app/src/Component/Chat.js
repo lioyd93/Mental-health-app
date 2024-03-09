@@ -1,50 +1,75 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography } from '@mui/material';
-import chatService from './ChatService';
+import axios from 'axios';
 
-const Chat = ({ userId }) => {
+const ChatPage = () => {
+  // State to store chat messages
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
 
-  useEffect(() => {
-    // Fetch initial chat messages
-    const initialMessages = chatService.getMessages();
-    setMessages(initialMessages);
-  }, []);
-
-  const handleSendMessage = () => {
-    if (newMessage.trim() !== '') {
-      // Send message and update state
-      const message = chatService.sendMessage(userId, newMessage);
-      setMessages([...messages, message]);
-      setNewMessage('');
+  // Function to fetch chat messages from the backend
+  const fetchMessages = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/api/chat-messages/');
+      setMessages(response.data);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
     }
   };
 
+  // Function to send a message
+  const sendMessage = async () => {
+    try {
+      await axios.post('http://localhost:8000/api/chat-messages/', { text: newMessage });
+      setNewMessage('');
+      fetchMessages(); // Fetch updated messages after sending a new message
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  };
+
+  // Function to format timestamp
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+  };
+
+  useEffect(() => {
+    fetchMessages(); // Fetch initial messages when the component mounts
+  }, []);
+
   return (
     <Container>
-    <div className="chat">
-      <h2>Chat</h2>
-      <div className="message-container">
-        {messages.map((message, index) => (
-          <div key={index} className="message">
-            <div className="message-text">{message.text}</div>
-            <div className="message-timestamp">{message.timestamp.toLocaleString()}</div>
-          </div>
-        ))}
-      </div>
-      <div className="message-input">
+    <div className="chat-page">
+      <header>
+        <h1>Chat</h1>
+      </header>
+      <main>
+        <div className="message-container">
+          {messages.map((message) => (
+            <div key={message.id} className="message">
+              <div className="message-text">{message.text}</div>
+              <div className="message-timestamp">{formatTimestamp(message.timestamp)}</div>
+            </div>
+          ))}
+        </div>
+      </main>
+      <footer>
         <input
           type="text"
           placeholder="Type your message..."
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && newMessage.trim() !== '') {
+              sendMessage();
+            }
+          }}
         />
-        <button onClick={handleSendMessage}>Send</button>
-      </div>
+      </footer>
     </div>
     </Container>
   );
 };
 
-export default Chat;
+export default ChatPage;

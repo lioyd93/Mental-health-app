@@ -16,10 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.views import PostList
-from django.views import EventList
-from django.views import ChatRoomList, ChatMessageList
-from django.views import WorkshopList, ResourceList
+# from django.views import PostList
+# from django.views import EventList
+from mental_health_app.views import ChatRoomList, ChatMessageList
+# from django.views import WorkshopList, ResourceList
 
 
 # urlpatterns = [
@@ -27,10 +27,11 @@ from django.views import WorkshopList, ResourceList
 # ]
 
 urlpatterns = [
-    path('posts/', PostList.as_view(), name='post-list'),
-     path('events/', EventList.as_view(), name='event-list'),
-     path('chat-rooms/', ChatRoomList.as_view(), name='chat-room-list'),
-    path('chat-messages/', ChatMessageList.as_view(), name='chat-message-list'),
-     path('workshops/', WorkshopList.as_view(), name='workshop-list'),
-    path('resources/', ResourceList.as_view(), name='resource-list'),
+     path('api/chat-messages/', ChatMessageList.as_view(), name='chat-message-list'),
+    # path('posts/', PostList.as_view(), name='post-list'),
+    #  path('events/', EventList.as_view(), name='event-list'),
+    #  path('chat-rooms/', ChatRoomList.as_view(), name='chat-room-list'),
+    
+    #  path('workshops/', WorkshopList.as_view(), name='workshop-list'),
+    # path('resources/', ResourceList.as_view(), name='resource-list'),
 ]

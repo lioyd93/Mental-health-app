@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'Backend.urls'
@@ -84,6 +85,10 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',  # Example: Allow requests from the React development server
+    'http://localhost:3001',    # Add more origins as needed
+]
 
 
 
