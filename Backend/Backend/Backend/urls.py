@@ -16,7 +16,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.views import PostList
+from django.views import EventList
+from django.views import ChatRoomList, ChatMessageList
+from django.views import WorkshopList, ResourceList
+
+
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+# ]
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('posts/', PostList.as_view(), name='post-list'),
+     path('events/', EventList.as_view(), name='event-list'),
+     path('chat-rooms/', ChatRoomList.as_view(), name='chat-room-list'),
+    path('chat-messages/', ChatMessageList.as_view(), name='chat-message-list'),
+     path('workshops/', WorkshopList.as_view(), name='workshop-list'),
+    path('resources/', ResourceList.as_view(), name='resource-list'),
 ]
