@@ -1,41 +1,62 @@
 import React from 'react';
-import { Container, Typography } from '@mui/material';
+import { Box, Typography, Card, CardContent, CardMedia, Grid } from '@material-ui/core';
 
+// Placeholder data for team members or project goals. Ideally, this would come from the backend.
+const teamMembers = [
+  {
+    name: "Dr. Alice Jones",
+    role: "Clinical Psychologist",
+    imageUrl: "/images/alice.jpg",
+    description: "Specializes in cognitive behavioral therapy and has over 10 years of experience."
+  },
+  {
+    name: "Bob Smith",
+    role: "Support Coordinator",
+    imageUrl: "/images/bob.jpg",
+    description: "Passionate about providing support and resources for mental health."
+  }
+];
 
-const AboutPage = () => {
+const About = () => {
   return (
-    <Container>
-    <div className="about-page">
-      <header>
-        <h1>About Us</h1>
-      </header>
-      <main>
-        <section>
-          <h2>Our Mission</h2>
-          <p>
-            Our mission is to provide a supportive community and valuable resources for individuals seeking mental health support and guidance, especially students facing challenges like stress, depression, and anxiety.
-          </p>
-        </section>
-        <section>
-          <h2>Our Approach</h2>
-          <p>
-            We believe in promoting mental health awareness and destigmatizing mental health issues. Our approach involves providing access to educational resources, facilitating open discussions, and fostering a supportive community where individuals can share their experiences and find support.
-          </p>
-        </section>
-        <section>
-          <h2>Our Team</h2>
-          <p>
-            Meet the dedicated team behind the Mental Health Support Network who are committed to making a positive impact on mental health awareness and support.
-          </p>
-          {/* Add team members' information and photos here */}
-        </section>
-      </main>
-      <footer>
-        {/* Add footer content here */}
-      </footer>
-    </div>
-    </Container>
+    <Box p={3}>
+      <Typography variant="h4" gutterBottom>
+        About Us
+      </Typography>
+      <Typography paragraph>
+        Our mission is to support students facing mental health challenges by providing a platform
+        for support, resources, and community engagement. We understand the pressures of student life
+        and strive to offer a safe space for discussion, learning, and growth.
+      </Typography>
+      <Typography variant="h5" gutterBottom>
+        Meet the Team
+      </Typography>
+      <Grid container spacing={4}>
+        {teamMembers.map((member, index) => (
+          <Grid item xs={12} sm={6} md={4} key={index}>
+            <Card>
+              <CardMedia
+                style={{ height: 140 }}
+                image={member.imageUrl}
+                title={member.name}
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h6">
+                  {member.name}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  {member.role}
+                </Typography>
+                <Typography variant="body1">
+                  {member.description}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   );
 };
 
-export default AboutPage;
+export default About;

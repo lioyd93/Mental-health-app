@@ -1,49 +1,69 @@
-import React from 'react';
-import { Container, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Typography, Tab, Tabs, Paper } from '@material-ui/core';
 
+const tabData = [
+  {
+    label: "Articles",
+    content: [
+      { title: "Managing Stress", link: "#", description: "A comprehensive guide to managing stress effectively." },
+      { title: "Understanding Anxiety", link: "#", description: "Insights into anxiety and how to cope with it." },
+    ],
+  },
+  {
+    label: "Videos",
+    content: [
+      { title: "Breathing Exercises", link: "#", description: "Learn breathing techniques to help calm your mind." },
+      { title: "Yoga for Beginners", link: "#", description: "Yoga routines to help manage anxiety and stress." },
+    ],
+  },
+  {
+    label: "Apps",
+    content: [
+      { title: "MindShift", link: "#", description: "An app designed to help teens and young adults cope with anxiety." },
+      { title: "Headspace", link: "#", description: "Meditation made simple." },
+    ],
+  },
+];
 
 const ResourcesPage = () => {
+  const [selectedTab, setSelectedTab] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setSelectedTab(newValue);
+  };
+
   return (
-    <Container>
-    <div className="resources-page">
-      <header>
-        <h1>Resources</h1>
-      </header>
-      <main>
-        <section>
-          <h2>Articles</h2>
-          <p>
-            Explore our collection of articles covering various topics related to mental health, including stress management, anxiety, depression, and more.
-          </p>
-          {/* Add list of articles */}
-        </section>
-        <section>
-          <h2>Podcasts</h2>
-          <p>
-            Listen to insightful podcasts featuring discussions on mental health, personal stories, coping strategies, and expert advice.
-          </p>
-          {/* Add list of podcasts */}
-        </section>
-        <section>
-          <h2>Videos</h2>
-          <p>
-            Watch informative videos addressing mental health issues, featuring interviews, educational content, and inspirational stories.
-          </p>
-          {/* Add list of videos */}
-        </section>
-        <section>
-          <h2>Educational Books</h2>
-          <p>
-            Discover recommended books on mental health topics, including self-help guides, memoirs, and academic resources.
-          </p>
-          {/* Add list of books */}
-        </section>
-      </main>
-      <footer>
-        {/* Add footer content here */}
-      </footer>
-    </div>
-    </Container>
+    <Box p={3}>
+      <Typography variant="h4" gutterBottom>
+        Resources
+      </Typography>
+      <Paper square>
+        <Tabs
+          value={selectedTab}
+          indicatorColor="primary"
+          textColor="primary"
+          onChange={handleChange}
+          aria-label="resource tabs"
+        >
+          {tabData.map((tab, index) => (
+            <Tab label={tab.label} key={index} />
+          ))}
+        </Tabs>
+      </Paper>
+      {tabData[selectedTab].content.map((resource, index) => (
+        <Box key={index} p={2} borderBottom={1} borderColor="grey.300">
+          <Typography variant="h6" gutterBottom>
+            {resource.title}
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            {resource.description}
+          </Typography>
+          <Typography variant="body2">
+            <a href={resource.link} target="_blank" rel="noopener noreferrer">Learn More</a>
+          </Typography>
+        </Box>
+      ))}
+    </Box>
   );
 };
 

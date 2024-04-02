@@ -1,52 +1,65 @@
-import React, { useState,  } from 'react';
-import { Container, Typography } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, TextField, Button, Typography, List, ListItem, ListItemText, Paper } from '@material-ui/core';
+import SendIcon from '@material-ui/icons/Send';
 
+// Placeholder for chat message format
+const dummyMessages = [
+  { sender: "Alice", message: "Hello, how are you feeling today?" },
+  { sender: "Bob", message: "I'm a bit stressed with my exams coming up." },
+];
 
 const ChatPage = () => {
-  // State to store chat messages
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(dummyMessages);
+  const [newMessage, setNewMessage] = useState('');
 
-  // Function to send a message
-  const sendMessage = (message) => {
-    setMessages([...messages, { text: message, timestamp: new Date() }]);
+  // This useEffect will be replaced with WebSocket connection setup
+  useEffect(() => {
+    // Placeholder for websocket initialization and message handling
+  }, []);
+
+  const handleSendMessage = () => {
+    if (newMessage.trim() !== '') {
+      const updatedMessages = [...messages, { sender: "You", message: newMessage }];
+      setMessages(updatedMessages);
+      setNewMessage('');
+      // Here you would also send the message through the WebSocket
+    }
   };
 
-  // Function to format timestamp
-  const formatTimestamp = (timestamp) => {
-    const date = new Date(timestamp);
-    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSendMessage();
+    }
   };
 
   return (
-    <Container>
-    <div className="chat-page">
-      <header>
-        <h1>Chat</h1>
-      </header>
-      <main>
-        <div className="message-container">
-          {messages.map((message, index) => (
-            <div key={index} className="message">
-              <div className="message-text">{message.text}</div>
-              <div className="message-timestamp">{formatTimestamp(message.timestamp)}</div>
-            </div>
+    <Box p={3}>
+      <Typography variant="h4" gutterBottom>
+        Community Chat
+      </Typography>
+      <Paper style={{ maxHeight: 400, overflow: 'auto' }}>
+        <List>
+          {messages.map((msg, index) => (
+            <ListItem key={index}>
+              <ListItemText primary={msg.sender} secondary={msg.message} />
+            </ListItem>
           ))}
-        </div>
-      </main>
-      <footer>
-        <input
-          type="text"
-          placeholder="Type your message..."
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && e.target.value.trim() !== '') {
-              sendMessage(e.target.value.trim());
-              e.target.value = '';
-            }
-          }}
+        </List>
+      </Paper>
+      <Box display="flex" mt={2}>
+        <TextField
+          fullWidth
+          variant="outlined"
+          label="Type your message here..."
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          onKeyPress={handleKeyPress}
         />
-      </footer>
-    </div>
-    </Container>
+        <Button variant="contained" color="primary" endIcon={<SendIcon />} onClick={handleSendMessage}>
+          Send
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

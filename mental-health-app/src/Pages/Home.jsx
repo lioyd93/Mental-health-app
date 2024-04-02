@@ -1,28 +1,59 @@
 import React from 'react';
-import { Container, Typography, Button, Grid } from '@mui/material';
+import { Box, Typography, Grid, Card, CardContent, Button } from '@material-ui/core';
 
 const Home = () => {
+  // Placeholder content, ideally fetched or dynamically updated
+  const features = [
+    {
+      title: 'Upcoming Events',
+      description: 'Join our events and workshops to learn coping strategies and meet peers.',
+      action: 'View Events',
+      link: '/events',
+    },
+    {
+      title: 'Forum Discussions',
+      description: 'Engage in discussions and share your experiences with the community.',
+      action: 'Visit Forum',
+      link: '/forum',
+    },
+    {
+      title: 'Resources',
+      description: 'Access a wealth of resources to support your mental health journey.',
+      action: 'Explore Resources',
+      link: '/resources',
+    },
+  ];
+
   return (
-    <Container>
-      <Typography variant="h2" align="center" gutterBottom>
+    <Box p={3}>
+      <Typography variant="h3" gutterBottom align="center">
         Welcome to the Mental Health Support Network
       </Typography>
-      <Typography variant="body1" align="center" paragraph>
-        Providing supportive community and valuable resources for students facing challenges like stress, depression, and anxiety.
+      <Typography variant="subtitle1" paragraph align="center">
+        A safe space for students to find support, resources, and community.
       </Typography>
-      <Grid container spacing={2} justifyContent="center">
-        <Grid item>
-          <Button variant="contained" color="primary">
-            Get Support
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button variant="outlined" color="primary">
-            Explore Resources
-          </Button>
-        </Grid>
+      <Grid container spacing={4} justifyContent="center">
+        {features.map((feature, index) => (
+          <Grid item xs={12} sm={6} md={4} key={index}>
+            <Card>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  {feature.title}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {feature.description}
+                </Typography>
+                <Box mt={2}>
+                  <Button variant="contained" color="primary" href={feature.link}>
+                    {feature.action}
+                  </Button>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
       </Grid>
-    </Container>
+    </Box>
   );
 };
 

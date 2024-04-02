@@ -1,46 +1,110 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography } from '@mui/material';
+import { Box, Typography, Paper, List, ListItem, ListItemText, Divider, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 
+// Placeholder for simulated fetch function to get forum posts data
+const fetchForumPosts = () => {
+  return Promise.resolve([
+    {
+      id: 1,
+      title: "Feeling overwhelmed with exams",
+      content: "Does anyone have tips on managing exam stress?",
+    },
+    {
+      id: 2,
+      title: "Balancing school and personal life",
+      content: "How do you guys balance your studies and personal life?",
+    },
+    // Add more posts as needed
+  ]);
+};
 
 const ForumPage = () => {
-  // State to store forum posts
   const [posts, setPosts] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [newPost, setNewPost] = useState({ title: '', content: '' });
 
-  // Function to fetch forum posts from an API
   useEffect(() => {
-    // Fetch forum posts from an API endpoint
-    // Example: fetch('https://api.example.com/forum/posts')
-    //   .then(response => response.json())
-    //   .then(data => setPosts(data));
-    // For demonstration purposes, let's use mock data:
-    const mockPosts = [
-      { id: 1, title: 'Feeling stressed about exams', content: 'I have exams coming up and I feel overwhelmed. Any tips for managing stress?' },
-      { id: 2, title: 'Dealing with anxiety', content: 'I struggle with anxiety and its affecting my daily life. How do you cope with anxiety?' },
-    ];
-    setPosts(mockPosts);
+    fetchForumPosts().then(data => {
+      setPosts(data);
+    });
   }, []);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handlePostChange = (e) => {
+    const { name, value } = e.target;
+    setNewPost(prevPost => ({ ...prevPost, [name]: value }));
+  };
+
+  const handleCreatePost = () => {
+    // Ideally, you would send a request to your backend to create a new post
+    const updatedPosts = [...posts, { id: posts.length + 1, ...newPost }];
+    setPosts(updatedPosts);
+    setOpen(false);
+    setNewPost({ title: '', content: '' });
+  };
+
   return (
-    <Container>
-    <div className="forum-page">
-      <header>
-        <h1>Forum</h1>
-      </header>
-      <main>
-        <div className="post-list">
-          {posts.map(post => (
-            <div key={post.id} className="post">
-              <div className="post-title">{post.title}</div>
-              <div className="post-content">{post.content}</div>
-            </div>
-          ))}
-        </div>
-      </main>
-      <footer>
-        {/* Add footer content here */}
-      </footer>
-    </div>
-    </Container>
+    <Box p={3}>
+      <Typography variant="h4" gutterBottom>
+        Forum
+      </Typography>
+      <Button variant="contained" color="primary" onClick={handleClickOpen}>
+        Create New Post
+      </Button>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">New Post</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="title"
+            label="Post Title"
+            type="text"
+            fullWidth
+            name="title"
+            value={newPost.title}
+            onChange={handlePostChange}
+          />
+          <TextField
+            margin="dense"
+            id="content"
+            label="Post Content"
+            type="text"
+            fullWidth
+            multiline
+            rows={4}
+            name="content"
+            value={newPost.content}
+            onChange={handlePostChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleCreatePost} color="primary">
+            Post
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <List>
+        {posts.map(post => (
+          <React.Fragment key={post.id}>
+            <ListItem alignItems="flex-start">
+              <ListItemText primary={post.title} secondary={post.content} />
+            </ListItem>
+            <Divider variant="inset" component="li" />
+          </React.Fragment>
+        ))}
+      </List>
+    </Box>
   );
 };
 

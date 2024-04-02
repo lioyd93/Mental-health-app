@@ -1,50 +1,66 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography } from '@mui/material';
+import { Box, Typography, Card, CardContent, CardActions, Button, Grid } from '@material-ui/core';
 
+// Placeholder for simulated fetch function to get events data
+const fetchEvents = () => {
+  return Promise.resolve([
+    {
+      id: 1,
+      title: "Mindfulness for Stress Relief",
+      date: "2024-04-10",
+      description: "Learn techniques to manage stress effectively through mindfulness.",
+      imageUrl: "/images/event-mindfulness.jpg",
+    },
+    {
+      id: 2,
+      title: "Coping with Anxiety",
+      date: "2024-05-15",
+      description: "Strategies and support for dealing with anxiety.",
+      imageUrl: "/images/event-anxiety.jpg",
+    },
+    // Add more events as needed
+  ]);
+};
 
 const EventsPage = () => {
-  // State to store events
   const [events, setEvents] = useState([]);
 
-  // Function to fetch events from an API
   useEffect(() => {
-    // Fetch events from an API endpoint
-    // Example: fetch('https://api.example.com/events')
-    //   .then(response => response.json())
-    //   .then(data => setEvents(data));
-    // For demonstration purposes, let's use mock data:
-    const mockEvents = [
-      { id: 1, title: 'Virtual Support Group', date: '2024-02-15', time: '10:00 AM' },
-      { id: 2, title: 'Mindfulness Workshop', date: '2024-02-20', time: '2:00 PM' },
-      { id: 3, title: 'Stress Management Webinar', date: '2024-02-25', time: '11:00 AM' },
-    ];
-    setEvents(mockEvents);
+    fetchEvents().then(data => {
+      setEvents(data);
+    });
   }, []);
 
   return (
-    <Container>
-    <div className="events-page">
-      <header>
-        <h1>Events</h1>
-      </header>
-      <main>
-        <div className="event-list">
-          {events.map(event => (
-            <div key={event.id} className="event">
-              <div className="event-title">{event.title}</div>
-              <div className="event-details">
-                <div>Date: {event.date}</div>
-                <div>Time: {event.time}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </main>
-      <footer>
-        {/* Add footer content here */}
-      </footer>
-    </div>
-    </Container>
+    <Box p={3}>
+      <Typography variant="h4" gutterBottom>
+        Upcoming Events
+      </Typography>
+      <Grid container spacing={4}>
+        {events.map(event => (
+          <Grid item xs={12} sm={6} md={4} key={event.id}>
+            <Card>
+              <CardContent>
+                <Typography variant="h5" component="h2">
+                  {event.title}
+                </Typography>
+                <Typography color="textSecondary">
+                  {event.date}
+                </Typography>
+                <Typography variant="body2" component="p">
+                  {event.description}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small" color="primary">
+                  Learn More
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   );
 };
 
