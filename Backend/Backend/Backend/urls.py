@@ -16,10 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-# from django.views import PostList
-# from django.views import EventList
 from mental_health_app.views import ChatRoomList, ChatMessageList
-# from django.views import WorkshopList, ResourceList
+from mental_health_app.views import WorkshopList, ResourceList,PostList ,EventList
 
 
 # urlpatterns = [
@@ -27,7 +25,12 @@ from mental_health_app.views import ChatRoomList, ChatMessageList
 # ]
 
 urlpatterns = [
-     path('api/chat-messages/', ChatMessageList.as_view(), name='chat-message-list'),
+    path('api/chat-messages/', ChatMessageList.as_view(), name='chat-message-list'),
+    path('api/workshops/', WorkshopList.as_view(), name='workshop-list'),
+    path('api/resources/', ResourceList.as_view(), name='resource-list'),
+    path('api/chatrooms/', ChatRoomList.as_view(), name='chatroom-list'),
+    path('api/posts/', PostList.as_view(), name='post-list'),
+    path('api/events/', EventList.as_view(), name='event-list'),
     # path('posts/', PostList.as_view(), name='post-list'),
     #  path('events/', EventList.as_view(), name='event-list'),
     #  path('chat-rooms/', ChatRoomList.as_view(), name='chat-room-list'),

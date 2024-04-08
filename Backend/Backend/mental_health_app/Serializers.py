@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import Post
 from .models import Event
-from rest_framework import serializers
 from .models import ChatRoom, ChatMessage
 from django.contrib.auth.models import User
 from .models import Workshop, Resource
