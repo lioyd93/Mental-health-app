@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Card, CardContent, CardActions, Button, Grid } from '@material-ui/core';
+import { Box, Typography, Card, CardContent, CardActions, Button, Grid } from '@mui/material';
 
 // Placeholder for simulated fetch function to get events data
 const fetchEvents = () => {

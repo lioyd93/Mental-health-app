@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 # Forum Category model
 class ForumCategory(models.Model):
-    Category_name = models.CharField(max_length=100)
+    Categoryname = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name

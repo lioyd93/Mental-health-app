@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Box, TextField, Button, Typography, List, ListItem, ListItemText, Paper } from '@material-ui/core';
-import SendIcon from '@material-ui/icons/Send';
-
+import { Box, TextField, Button, Typography, List, ListItem, ListItemText, Paper } from '@mui/material';
+import SendIcon from  '@mui/icons-material/Add';
 // Placeholder for chat message format
 const dummyMessages = [
   { sender: "Alice", message: "Hello, how are you feeling today?" },

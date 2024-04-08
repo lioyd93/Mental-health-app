@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Card, CardContent, Button, Grid, TextField, MenuItem } from '@material-ui/core';
+import { Box, Typography, Card, CardContent, Button, Grid, TextField, MenuItem } from '@mui/material';
 
 // Placeholder for simulated fetch function to get workshops data
 const fetchWorkshops = () => {

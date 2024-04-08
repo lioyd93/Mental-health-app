@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Card, CardContent, CardMedia, Grid } from '@material-ui/core';
+import { Box, Typography, Card, CardContent, CardMedia, Grid } from '@mui/material';
 
 // Placeholder data for team members or project goals. Ideally, this would come from the backend.
 const teamMembers = [

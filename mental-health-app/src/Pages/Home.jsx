@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Grid, Card, CardContent, Button } from '@material-ui/core';
+import { Box, Typography, Grid, Card, CardContent, Button } from '@mui/material';
 
 const Home = () => {
   // Placeholder content, ideally fetched or dynamically updated

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Paper, List, ListItem, ListItemText, Divider, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
-
+import { Box, Typography, Paper, List, ListItem, ListItemText, Divider, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 // Placeholder for simulated fetch function to get forum posts data
 const fetchForumPosts = () => {
   return Promise.resolve([

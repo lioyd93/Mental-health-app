@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, Tab, Tabs, Paper } from '@material-ui/core';
-
+import { Box, Typography, Tab, Tabs, Paper } from '@mui/material';
 const tabData = [
   {
     label: "Articles",
