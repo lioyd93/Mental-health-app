@@ -27,8 +27,7 @@ class Post(models.Model):
 
 # Event model
 class Event(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField()
+    title = models.CharField(max_length=250)
     date = models.DateField()
     time = models.TimeField()
 

@@ -8,19 +8,19 @@ const Home = () => {
       title: 'Upcoming Events',
       description: 'Join our events and workshops to learn coping strategies and meet peers.',
       action: 'View Events',
-      link: '/events',
+      link: '/Pages/EventsPage',
     },
     {
       title: 'Forum Discussions',
       description: 'Engage in discussions and share your experiences with the community.',
       action: 'Visit Forum',
-      link: '/forum',
+      link: '/Pages/ForumPage',
     },
     {
       title: 'Resources',
       description: 'Access a wealth of resources to support your mental health journey.',
       action: 'Explore Resources',
-      link: '/resources',
+      link: '/Pages/ResourcesPage',
     },
   ];
 
