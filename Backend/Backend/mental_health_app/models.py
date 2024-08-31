@@ -3,27 +3,27 @@ from django.contrib.auth.models import User
 
 # Forum Category model
 class ForumCategory(models.Model):
-    Categoryname = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
-# Forum Post model
-class ForumPost(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(ForumCategory, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
-    content = models.TextField()
+class ForumTopic(models.Model):
+    title = models.CharField(max_length=255)
+    category = models.ForeignKey(ForumCategory, on_delete=models.CASCADE, related_name='topics')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
 
-
-class Post(models.Model):
-    title = models.CharField(max_length=100)
+class ForumPost(models.Model):
+    topic = models.ForeignKey(ForumTopic, on_delete=models.CASCADE, related_name='posts')
+    user = models.CharField(max_length=100)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Post by {self.user} on {self.topic.title}"
 
 # Event model
 class Event(models.Model):
