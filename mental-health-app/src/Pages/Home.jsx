@@ -14,7 +14,7 @@ const Home = () => {
       title: 'Forum Discussions',
       description: 'Engage in discussions and share your experiences with the community.',
       action: 'Visit Forum',
-      link: '/Pages/ForumPage',
+      link: '/Pages/ForumCategoriesPage',
     },
     {
       title: 'Resources',

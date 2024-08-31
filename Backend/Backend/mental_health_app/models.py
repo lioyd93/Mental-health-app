@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 # Forum Category model
 class ForumCategory(models.Model):
@@ -17,7 +16,7 @@ class ForumTopic(models.Model):
         return self.title
 
 class ForumPost(models.Model):
-    topic = models.ForeignKey(ForumTopic, on_delete=models.CASCADE, related_name='posts')
+    topic = models.ForeignKey(ForumTopic, on_delete=models.CASCADE, default=1)  # Assuming 1 is a valid topic ID
     user = models.CharField(max_length=100)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -46,7 +45,7 @@ class ChatMessage(models.Model):
 # Workshop model
 class Workshop(models.Model):
     title = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(default='Default description')
     date = models.DateField()
     time = models.TimeField()
 

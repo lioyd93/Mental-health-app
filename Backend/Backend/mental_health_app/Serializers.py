@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Event
-from .models import ChatRoom, ChatMessage
+from .models import ChatMessage
 from django.contrib.auth.models import User
 from .models import Workshop, Resource ,ForumCategory, ForumTopic, ForumPost
 
@@ -20,10 +20,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username']
 
-class ChatRoomSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ChatRoom
-        fields = ['id', 'name']
 
 class ChatMessageSerializer(serializers.ModelSerializer):
     class Meta:

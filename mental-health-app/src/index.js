@@ -10,7 +10,7 @@ import Home from './Pages/Home';
 import About from './Pages/About';
 import ChatPage from './Pages/ChatPage';
 import EventsPage from './Pages/EventsPage';
-import ForumPage from './Pages/ForumPage';
+import ForumCategoriesPage from './Pages/ForumCategoriesPage';
 import WorkshopsPage from './Pages/WorkshopsPage';
 import ResourcesPage from './Pages/ResourcesPage';
 
@@ -28,7 +28,7 @@ root.render(
         <Route path="/Pages/about" element={<About />} />
         <Route path="/Pages/ChatPage" element={<ChatPage />} />
         <Route path="/Pages/EventsPage" element={<EventsPage />} />
-        <Route path="/Pages/ForumPage" element={<ForumPage />} />
+        <Route path="/Pages/ForumCategoriesPage" element={<ForumCategoriesPage />} />
         <Route path="/Pages/WorkshopsPage" element={<WorkshopsPage />} />
         <Route path="/Pages/ResourcesPage" element={<ResourcesPage />} />
         {/* Add other routes */}
