@@ -14,7 +14,7 @@ class WorkshopSerializer(serializers.ModelSerializer):
 class ResourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Resource
-        fields = ['id', 'title', 'description', 'category', 'link']
+        fields = ['id', 'title', 'description', 'link']
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,12 +27,9 @@ class ChatRoomSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 class ChatMessageSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-    room = ChatRoomSerializer()
-
     class Meta:
         model = ChatMessage
-        fields = ['id', 'user', 'room', 'message', 'created_at']
+        fields = ['id', 'user', 'message', 'timestamp']
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:

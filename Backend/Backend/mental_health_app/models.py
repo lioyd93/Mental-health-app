@@ -43,17 +43,16 @@ class ChatRoom(models.Model):
 
 # Chat Message model
 class ChatMessage(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
+    user = models.CharField(max_length=100)
     message = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.user.username} in {self.room.name}: {self.message}'
+        return f"{self.user}: {self.message[:20]}..."
 
 # Workshop model
 class Workshop(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=255)
     description = models.TextField()
     date = models.DateField()
     time = models.TimeField()
@@ -63,9 +62,8 @@ class Workshop(models.Model):
 
 # Resource model
 class Resource(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=255)
     description = models.TextField()
-    category = models.CharField(max_length=100)  # Example: Mental Health, Stress Management, etc.
     link = models.URLField()
 
     def __str__(self):

@@ -14,7 +14,7 @@ from .Serializers import ChatRoomSerializer, ChatMessageSerializer
 from .models import Workshop, Resource
 from .Serializers import WorkshopSerializer, ResourceSerializer
 
-class WorkshopList(APIView):
+class WorkshopListView(APIView):
     def get(self, request):
         workshops = Workshop.objects.all()
         serializer = WorkshopSerializer(workshops, many=True)
@@ -40,18 +40,13 @@ class ChatRoomList(APIView):
         serializer = ChatRoomSerializer(chat_rooms, many=True)
         return Response(serializer.data)
 
-class ChatMessageList(APIView):
+class ChatMessageListView(APIView):
     def get(self, request):
         chat_messages = ChatMessage.objects.all()
         serializer = ChatMessageSerializer(chat_messages, many=True)
         return Response(serializer.data)
-
-    def post(self, request):
-        serializer = ChatMessageSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
 class PostList(APIView):
     def get(self, request):
         posts = Post.objects.all()

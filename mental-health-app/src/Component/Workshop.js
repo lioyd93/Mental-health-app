@@ -1,41 +1,40 @@
+// WorkshopList.js
 import React, { useState, useEffect } from 'react';
 import { Container, Typography } from '@mui/material';
-import workshopService from './WorkshopService';
+import workshopService from '../Services/WorkshopService';
 
-const Workshop = ({ workshopId }) => {
-  const [workshop, setWorkshop] = useState(null);
+const WorkshopList = () => {
+  const [workshops, setWorkshops] = useState([]);
 
   useEffect(() => {
-    // Fetch workshop details when the component mounts
-    const fetchedWorkshop = workshopService.getWorkshopById(workshopId);
-    setWorkshop(fetchedWorkshop);
-  }, [workshopId]);
+    const fetchWorkshops = async () => {
+      try {
+        const fetchedWorkshops = await workshopService.getWorkshops();
+        setWorkshops(fetchedWorkshops || []);
+      } catch (error) {
+        console.error('Error fetching workshops:', error);
+        setWorkshops([]);
+      }
+    };
+
+    fetchWorkshops();
+  }, []);
 
   return (
-    <Container maxWidth="md">
-    <Box sx={{ marginTop: 4, marginBottom: 4 }}>
-     
-       
-          <Typography variant="h2" gutterBottom>
-            {workshop.title}
-          </Typography>
-          <Box sx={{ marginBottom: 2 }}>
-            <Typography variant="body1">
-              Date: {workshop.date}
-            </Typography>
-            <Typography variant="body1">
-              Time: {workshop.time}
-            </Typography>
-          </Box>
-      
-     
-        <Typography variant="body1">
-          Workshop not found.
-        </Typography>
-     
-    </Box>
-  </Container>
+    <Container>
+      <div className="workshop-list">
+        <h2>Workshops</h2>
+        {workshops.map(workshop => (
+          <div key={workshop.id} className="workshop">
+            <Typography variant="h6">{workshop.title}</Typography>
+            <Typography>{workshop.description}</Typography>
+            <div>Date: {workshop.date}</div>
+            <div>Time: {workshop.time}</div>
+          </div>
+        ))}
+      </div>
+    </Container>
   );
 };
 
-export default Workshop;
+export default WorkshopList;
