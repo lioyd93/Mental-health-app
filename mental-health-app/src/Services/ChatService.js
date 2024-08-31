@@ -1,30 +1,19 @@
+// ChatService.js
+import axios from 'axios';
+
 class ChatService {
-    // Simulated chat messages data (for demonstration purposes)
-    messages = [
-      { id: 1, userId: 1, text: 'Hello, how are you feeling today?', timestamp: new Date('2024-02-12T10:00:00') },
-      { id: 2, userId: 2, text: 'Im doing okay, thanks for asking.', timestamp: new Date('2024-02-12T10:05:00') },
-      // Add more messages as needed
-    ];
-  
-    // Function to fetch chat messages
-    getMessages = () => {
-      // Simulate fetching chat messages from a database or API
-      return this.messages;
-    };
-  
-    // Function to send a chat message
-    sendMessage = (userId, text) => {
-      // Simulate sending a chat message and adding it to the messages array
-      const newMessage = {
-        id: this.messages.length + 1,
-        userId,
-        text,
-        timestamp: new Date(),
-      };
-      this.messages.push(newMessage);
-      return newMessage;
-    };
-  }
-  
-  const chatServiceInstance = new ChatService();
-  export default chatServiceInstance;
+  API_URL = 'http://127.0.0.1:8000/api/chat-messages/';  // Adjust the URL as needed
+
+  getChatMessages = async () => {
+    try {
+      const response = await axios.get(this.API_URL);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching chat messages:', error);
+      return [];
+    }
+  };
+}
+
+const chatServiceInstance = new ChatService();
+export default chatServiceInstance;

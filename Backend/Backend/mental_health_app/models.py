@@ -34,13 +34,6 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
-# Chat Room model
-class ChatRoom(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-
 # Chat Message model
 class ChatMessage(models.Model):
     user = models.CharField(max_length=100)
