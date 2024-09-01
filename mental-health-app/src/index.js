@@ -15,6 +15,8 @@ const EventsPage = React.lazy(() => import('./Pages/EventsPage'));
 const ForumCategoriesPage = React.lazy(() => import('./Pages/ForumCategoriesPage'));
 const WorkshopsPage = React.lazy(() => import('./Pages/WorkshopsPage'));
 const ResourcesPage = React.lazy(() => import('./Pages/ResourcesPage'));
+const SignIn = React.lazy(() => import('./Component/SignIn'));
+const SignUp = React.lazy(() => import('./Component/SignUp'));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -25,13 +27,15 @@ root.render(
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Pages/Home" element={<Home />} />
-          <Route path="/Pages/about" element={<About />} />
+          <Route path="/Pages/About" element={<About />} />
           <Route path="/Pages/ChatPage" element={<ChatPage />} />
           <Route path="/Pages/EventsPage" element={<EventsPage />} />
           <Route path="/Pages/ForumCategoriesPage" element={<ForumCategoriesPage />} />
           <Route path="/Pages/WorkshopsPage" element={<WorkshopsPage />} />
           <Route path="/Pages/ResourcesPage" element={<ResourcesPage />} />
-          {/* Add other routes */}
+          <Route path="/signin" element={<SignIn />} /> 
+          <Route path="/signup" element={<SignUp />} /> 
+          {/* Add other routes here */}
         </Routes>
       </Suspense>
       <Footer />
