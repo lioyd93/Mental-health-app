@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Make sure this is included
+]
 
 # Application definition
 
@@ -39,11 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
      'corsheaders',
       'rest_framework',
+          'rest_framework_simplejwt',
+
      'mental_health_app',
 ]
 REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
 MIDDLEWARE = [
@@ -102,7 +107,7 @@ CORS_ALLOWED_ORIGINS = [
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
-"""AUTH_PASSWORD_VALIDATORS = [
+AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
@@ -115,7 +120,7 @@ CORS_ALLOWED_ORIGINS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
-]"""
+]
 
 
 # Internationalization

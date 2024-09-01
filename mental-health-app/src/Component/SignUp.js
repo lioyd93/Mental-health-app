@@ -28,9 +28,11 @@ export default function SignUp() {
     try {
       // Sending the POST request to the backend
       const response = await axios.post(API_URL, {
-        username: firstName,  // Using firstName as username (adjust as needed)
-        email: email,
-        password: password,
+      username: firstName,  // Adjust if you're using a different field for username
+      first_name: firstName,  // Using first_name instead of firstName
+      last_name: lastName,    // Using last_name instead of lastName
+      email: email,
+      password: password,
       });
       console.log('Sign up successful', response.data);
       window.location.href = './SignIn'; // Redirect to sign-in page after successful sign-up

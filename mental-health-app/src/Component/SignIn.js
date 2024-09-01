@@ -1,11 +1,8 @@
-import * as React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -18,20 +15,24 @@ import axios from 'axios';
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const API_URL = 'http://127.0.0.1:8000/api/auth/signin/';
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/auth/signin', { email, password });
-      if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
-        window.location.href = '/dashboard'; // Redirect after successful login
-      }
+      const response = await axios.post(API_URL, {
+        username: username,
+        password: password,
+      });
+      console.log('Sign in successful', response.data);
+      window.location.href = '../Pages/Home'; // Redirect to dashboard after successful sign-in
     } catch (error) {
-      setError('Invalid email or password');
+      console.error('Sign in error:', error.response?.data || 'Unknown error');
+      setError('Failed to sign in: ' + (error.response?.data?.error || 'Unknown error'));
     }
   };
 
@@ -54,20 +55,22 @@ export default function SignIn() {
             Sign in
           </Typography>
           {error && <Typography color="error">{error}</Typography>}
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
+              variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
               autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
             <TextField
+              variant="outlined"
               margin="normal"
               required
               fullWidth
@@ -79,10 +82,6 @@ export default function SignIn() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -92,11 +91,6 @@ export default function SignIn() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item>
                 <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
