@@ -4,7 +4,7 @@ import { Box, Typography, Card, CardContent, CardMedia, Grid } from '@mui/materi
 // Placeholder data for team members or project goals. Ideally, this would come from the backend.
 const teamMembers = [
   {
-    name: "Dr. Alice Jones",
+    name: "Dr. fake Jones",
     role: "Clinical Psychologist",
     imageUrl: "/images/alice.jpg",
     description: "Specializes in cognitive behavioral therapy and has over 10 years of experience."
