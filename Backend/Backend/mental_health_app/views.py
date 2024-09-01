@@ -1,11 +1,9 @@
-from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 from rest_framework_simplejwt.tokens import RefreshToken
-
 from .models import (
     Event,
     ChatMessage,
@@ -25,7 +23,7 @@ from .Serializers import (
     ForumPostSerializer
 )
 
-# Utility function to get tokens for a user
+# Utility function to generate tokens for a user
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
     return {
@@ -33,50 +31,51 @@ def get_tokens_for_user(user):
         'access': str(refresh.access_token),
     }
 
-# Authentication Views
-
 class SignUpView(APIView):
     def post(self, request):
+        # Handle POST request for user sign-up
         username = request.data.get('username')
         password = request.data.get('password')
         email = request.data.get('email')
-
+        
         if not username or not password or not email:
-            return Response({'error': 'Please provide all required fields.'}, status=status.HTTP_400_BAD_REQUEST)
-
+            return Response({'error': 'All fields are required: username, password, email'}, status=status.HTTP_400_BAD_REQUEST)
+        
         if User.objects.filter(username=username).exists():
-            return Response({'error': 'Username already taken.'}, status=status.HTTP_400_BAD_REQUEST)
-
+            return Response({'error': 'Username is already taken'}, status=status.HTTP_400_BAD_REQUEST)
+        
         user = User.objects.create_user(username=username, password=password, email=email)
         user.save()
-
-        tokens = get_tokens_for_user(user)
-        return Response({'message': 'User created successfully', 'tokens': tokens}, status=status.HTTP_201_CREATED)
-
+        
+        return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
+    
+    
 class SignInView(APIView):
     def post(self, request):
+        # Extract data from the request
         username = request.data.get('username')
         password = request.data.get('password')
 
+        # Validate that both username and password are provided
         if not username or not password:
             return Response({'error': 'Please provide both username and password.'}, status=status.HTTP_400_BAD_REQUEST)
 
+        # Authenticate the user
         user = authenticate(request, username=username, password=password)
         if user is not None:
+            # Generate JWT tokens for the authenticated user
             tokens = get_tokens_for_user(user)
             return Response({'message': 'Login successful', 'tokens': tokens}, status=status.HTTP_200_OK)
         else:
+            # Return an error if authentication fails
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
-# Workshop Views
-
+# Additional views for workshops, resources, etc.
 class WorkshopListView(APIView):
     def get(self, request):
         workshops = Workshop.objects.all()
         serializer = WorkshopSerializer(workshops, many=True)
         return Response(serializer.data)
-
-# Resource Views
 
 class ResourceList(APIView):
     def get(self, request):
@@ -91,15 +90,11 @@ class ResourceList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# ChatMessage Views
-
 class ChatMessageListView(APIView):
     def get(self, request):
         chat_messages = ChatMessage.objects.all()
         serializer = ChatMessageSerializer(chat_messages, many=True)
         return Response(serializer.data)
-
-# Event Views
 
 class EventList(APIView):
     def get(self, request):
@@ -112,9 +107,7 @@ class EventList(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# Forum Views
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    
 
 class ForumCategoryListView(APIView):
     def get(self, request):

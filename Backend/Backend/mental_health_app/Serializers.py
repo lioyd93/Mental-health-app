@@ -5,6 +5,24 @@ from django.contrib.auth.models import User
 from .models import Workshop, Resource ,ForumCategory, ForumTopic, ForumPost
 
 
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'password']
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password']
+        )
+        return user
+
+
 class WorkshopSerializer(serializers.ModelSerializer):
     class Meta:
         model = Workshop
@@ -15,10 +33,7 @@ class ResourceSerializer(serializers.ModelSerializer):
         model = Resource
         fields = ['id', 'title', 'description', 'link']
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username']
+
 
 
 class ChatMessageSerializer(serializers.ModelSerializer):

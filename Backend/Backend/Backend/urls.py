@@ -9,8 +9,8 @@ from mental_health_app.views import (
     ForumCategoryListView,
     ForumTopicListView,
     ForumPostListView,
-    SignInView,  # Assuming you create this view for signing in
-    SignUpView   # Assuming you create this view for signing up
+    SignInView,  
+    SignUpView   
 )
 
 def homepage(request):
@@ -25,7 +25,7 @@ urlpatterns = [
     path('api/forum/categories/', ForumCategoryListView.as_view(), name='forum-category-list'),
     path('api/forum/topics/', ForumTopicListView.as_view(), name='forum-topic-list'),
     path('api/forum/posts/', ForumPostListView.as_view(), name='forum-post-list'),
-    path('api/auth/signin/', SignInView.as_view(), name='sign-in'),
-    path('api/auth/signup/', SignUpView.as_view(), name='sign-up'),
+    path('api/auth/signup/', SignUpView.as_view(), name='signup'),
+    path('api/auth/signin/', SignInView.as_view(), name='signin'),
     path('', homepage, name='homepage'), 
 ]

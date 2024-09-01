@@ -25,7 +25,7 @@ export default function SignIn() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('/api/auth/signin', { email, password });
+      const response = await axios.post('http://127.0.0.1:8000/api/auth/signin', { email, password });
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
         window.location.href = '/dashboard'; // Redirect after successful login

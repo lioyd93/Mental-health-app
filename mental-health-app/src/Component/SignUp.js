@@ -24,14 +24,21 @@ export default function SignUp() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const API_URL = 'http://127.0.0.1:8000/api/auth/signup/'; 
     try {
-      await axios.post('/api/auth/signup', { firstName, lastName, email, password });
-      window.location.href = '/signin'; // Redirect after successful signup
+      // Sending the POST request to the backend
+      const response = await axios.post(API_URL, {
+        username: firstName,  // Using firstName as username (adjust as needed)
+        email: email,
+        password: password,
+      });
+      console.log('Sign up successful', response.data);
+      window.location.href = './SignIn'; // Redirect to sign-in page after successful sign-up
     } catch (error) {
-      setError('Failed to sign up');
+      console.error('Sign up error:', error.response?.data || 'Unknown error');  // Log the error details
+      setError('Failed to sign up: ' + (error.response?.data?.error || 'Unknown error'));
     }
   };
-
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
