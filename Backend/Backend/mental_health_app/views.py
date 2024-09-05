@@ -2,7 +2,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
+from django.http import JsonResponse
+from .models import ChatRoom
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import (
     Event,
@@ -135,6 +137,12 @@ class ForumPostListView(APIView):
 
 class ChatMessageListView(APIView):
     # Fetch messages for a specific room
+
+
+  def get_all_rooms(request):
+    rooms = ChatRoom.objects.all()
+    room_data = [{"id": room.id, "name": room.name} for room in rooms]
+    return JsonResponse(room_data, safe=False)
 
   def get_messages(request, room):
     try:

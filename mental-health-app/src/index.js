@@ -10,7 +10,7 @@ import Footer from './Component/Footer';
 // Lazy load the page components
 const Home = React.lazy(() => import('./Pages/Home'));
 const About = React.lazy(() => import('./Pages/About'));
-const ChatPage = React.lazy(() => import('./Pages/ChatPage'));
+const RoomsPage = React.lazy(() => import('./Pages/RoomsPage'));
 const EventsPage = React.lazy(() => import('./Pages/EventsPage'));
 const ForumCategoriesPage = React.lazy(() => import('./Pages/ForumCategoriesPage'));
 const WorkshopsPage = React.lazy(() => import('./Pages/WorkshopsPage'));
@@ -28,7 +28,7 @@ root.render(
           <Route path="/" element={<Home />} />
           <Route path="/Pages/Home" element={<Home />} />
           <Route path="/Pages/About" element={<About />} />
-          <Route path="/Pages/ChatPage" element={<ChatPage />} />
+          <Route path="/Pages/RoomsPage" element={<RoomsPage />} />
           <Route path="/Pages/EventsPage" element={<EventsPage />} />
           <Route path="/Pages/ForumCategoriesPage" element={<ForumCategoriesPage />} />
           <Route path="/Pages/WorkshopsPage" element={<WorkshopsPage />} />

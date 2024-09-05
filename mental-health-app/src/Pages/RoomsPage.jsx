@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography, List, ListItem, ListItemText, Card, CardContent, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const ChatPage = () => {
+const RoomsPage = () => {
   const navigate = useNavigate();
 
   // Define the static list of chat rooms
@@ -71,4 +71,4 @@ const ChatPage = () => {
   );
 };
 
-export default ChatPage;
+export default RoomsPage;

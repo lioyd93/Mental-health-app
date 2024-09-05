@@ -33,20 +33,43 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
-# Chat Message model
-class ChatMessage(models.Model):
-    user = models.CharField(max_length=100)
-    message = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
+def create_default_rooms():
+    rooms = ["general", "anxiety-room", "stress-room", "depression-room"]
+    for room_name in rooms:
+        ChatRoom.objects.get_or_create(name=room_name)
+
+# Function to return the default room, which is "general"
+def get_general_room_id():
+    return ChatRoom.objects.get_or_create(name="general")[0].id
+
+class ChatRoom(models.Model):
+    """Model to represent a chat room."""
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
-        return f"{self.user}: {self.message[:20]}..."
+        return self.name
     
+class ChatMessage(models.Model):
+    """Model to represent chat messages within a room."""
+    user = models.CharField(max_length=100)
+    text = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    # Assign the default room as "general" initially
+    room = models.ForeignKey(ChatRoom, related_name='messages', on_delete=models.CASCADE, default=get_general_room_id)
+
+    def __str__(self):
+        return f'Message from {self.user} in {self.room.name}'   
+
 
 class Report(models.Model):
+    """
+    Model to represent a report made against a message.
+    """
     message = models.ForeignKey(ChatMessage, on_delete=models.CASCADE)
     reported_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f'Report for message {self.message.id}'
 
 # Workshop model
 class Workshop(models.Model):
