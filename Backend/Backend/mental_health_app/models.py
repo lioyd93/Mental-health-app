@@ -41,6 +41,12 @@ class ChatMessage(models.Model):
 
     def __str__(self):
         return f"{self.user}: {self.message[:20]}..."
+    
+
+class Report(models.Model):
+    message = models.ForeignKey(ChatMessage, on_delete=models.CASCADE)
+    reported_at = models.DateTimeField(auto_now_add=True)
+
 
 # Workshop model
 class Workshop(models.Model):

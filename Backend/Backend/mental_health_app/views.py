@@ -7,6 +7,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .models import (
     Event,
     ChatMessage,
+    Report,
     Workshop,
     Resource,
     ForumCategory,
@@ -101,12 +102,6 @@ class ResourceList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ChatMessageListView(APIView):
-    def get(self, request):
-        chat_messages = ChatMessage.objects.all()
-        serializer = ChatMessageSerializer(chat_messages, many=True)
-        return Response(serializer.data)
-
 class EventList(APIView):
     def get(self, request):
         events = Event.objects.all()
@@ -137,3 +132,44 @@ class ForumPostListView(APIView):
         posts = ForumPost.objects.all()
         serializer = ForumPostSerializer(posts, many=True)
         return Response(serializer.data)
+
+class ChatMessageListView(APIView):
+    # Fetch messages for a specific room
+
+  def get_messages(request, room):
+    try:
+        messages = ChatMessage.objects.filter(room=room).order_by('created_at')  # Fetch messages by room
+        serializer = ChatMessageSerializer(messages, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# Send a message to a room with an anonymous user
+
+  def send_message(request):
+    data = request.data
+    try:
+        # Save the message with the provided anonymous user and room
+        message = ChatMessage.objects.create(
+            user=data.get('user', 'Anonymous'),  # Use "Anonymous" as a fallback
+            text=data['text'],
+            room=data['room']
+        )
+        serializer = ChatMessageSerializer(message)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# Report an inappropriate message
+
+  def report_message(request):
+    message_id = request.data.get('message_id')
+    try:
+        message = ChatMessage.objects.get(id=message_id)
+        # Create a new report for the message
+        Report.objects.create(message=message)
+        return Response({"status": "Message reported successfully"}, status=status.HTTP_200_OK)
+    except ChatMessage.DoesNotExist:
+        return Response({"error": "Message not found"}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

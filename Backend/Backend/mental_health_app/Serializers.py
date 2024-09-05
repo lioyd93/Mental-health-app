@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Event
 from .models import ChatMessage
 from django.contrib.auth.models import User
-from .models import Workshop, Resource ,ForumCategory, ForumTopic, ForumPost
+from .models import Workshop, Resource ,ForumCategory, ForumTopic, ForumPost,Report
 
 
 
@@ -34,12 +34,15 @@ class ResourceSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'description', 'link']
 
 
-
-
 class ChatMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatMessage
-        fields = ['id', 'user', 'message', 'timestamp']
+        fields = ['id', 'user', 'text', 'room', 'created_at']
+
+class ReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Report
+        fields = ['id', 'message', 'reported_at']
 
 class EventSerializer(serializers.ModelSerializer):
     class Meta:

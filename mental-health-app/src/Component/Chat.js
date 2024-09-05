@@ -1,32 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Card, CardContent, Grid, TextField, Button, List, ListItem, ListItemText } from '@mui/material';
-import chatService from '../Services/ChatService'; // Assuming you have a service for fetching chat messages
+import chatService from '../Services/ChatService'; 
 
 const ChatList = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [selectedRoom, setSelectedRoom] = useState('General');
   const [loading, setLoading] = useState(true);
 
+  // Function to generate a random anonymous user identifier
+  const generateAnonymousUser = () => `User${Math.floor(Math.random() * 1000)}`;
+
+  // Fetch messages based on the selected room
+  const fetchMessages = async (room) => {
+    try {
+      const data = await chatService.getMessages(room); // Fetch messages for the selected room
+      setMessages(data);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const data = await chatService.getMessages(); // Fetch chat messages
-        setMessages(data);
-      } catch (error) {
-        console.error('Error fetching messages:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    fetchMessages(selectedRoom); // Fetch messages when the room changes or component mounts
+  }, [selectedRoom]);
 
-    fetchMessages();
-  }, []);
-
+  // Handle sending a new message
   const handleSendMessage = async () => {
     if (newMessage.trim() === '') return;
 
     try {
-      const message = await chatService.sendMessage(newMessage); // Send a new message
+      const anonymousUser = generateAnonymousUser(); // Generate an anonymous user identifier
+      const message = await chatService.sendMessage({
+        user: anonymousUser,
+        text: newMessage,
+        room: selectedRoom, // Include the selected room
+      }); // Send the new message
       setMessages((prevMessages) => [...prevMessages, message]);
       setNewMessage('');
     } catch (error) {
@@ -34,10 +45,27 @@ const ChatList = () => {
     }
   };
 
+  // Handle reporting a message
+  const handleReportMessage = async (messageId) => {
+    try {
+      await chatService.reportMessage(messageId); // Report the message
+      alert('Message reported successfully');
+    } catch (error) {
+      console.error('Error reporting message:', error);
+    }
+  };
+
+  // Handle room selection
+  const handleRoomChange = (room) => {
+    setSelectedRoom(room);
+    setLoading(true);
+    fetchMessages(room); // Fetch messages for the newly selected room
+  };
+
   return (
     <Box sx={{ flexGrow: 1, p: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom align="center">
-        Chat Room
+        Chat Room: {selectedRoom}
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} md={8}>
@@ -53,6 +81,9 @@ const ChatList = () => {
                   {messages.map((message, index) => (
                     <ListItem key={index}>
                       <ListItemText primary={message.user} secondary={message.text} />
+                      <Button variant="outlined" color="secondary" onClick={() => handleReportMessage(message.id)}>
+                        Report
+                      </Button>
                     </ListItem>
                   ))}
                 </List>
@@ -80,12 +111,22 @@ const ChatList = () => {
               </Button>
             </CardContent>
           </Card>
+
+          {/* Room Selection */}
+          <Card sx={{ mt: 2 }}>
+            <CardContent>
+              <Typography variant="h6" component="h2" gutterBottom>
+                Select Room
+              </Typography>
+              <Button variant="outlined" onClick={() => handleRoomChange('Stress Support')}>Stress Support</Button>
+              <Button variant="outlined" onClick={() => handleRoomChange('Depression Help')}>Depression Help</Button>
+              <Button variant="outlined" onClick={() => handleRoomChange('Anxiety Relief')}>Anxiety Relief</Button>
+            </CardContent>
+          </Card>
         </Grid>
       </Grid>
     </Box>
   );
 };
-
-
 
 export default ChatList;
