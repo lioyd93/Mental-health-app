@@ -135,52 +135,7 @@ class ForumPostListView(APIView):
         serializer = ForumPostSerializer(posts, many=True)
         return Response(serializer.data)
 
-class ChatMessageListView(APIView):
     # Fetch messages for a specific room
-
-
-  def get_all_rooms(request):
-    rooms = ChatRoom.objects.all()
-    room_data = [{"id": room.id, "name": room.name} for room in rooms]
-    return JsonResponse(room_data, safe=False)
-
-  def get_messages(request, room):
-    try:
-        messages = ChatMessage.objects.filter(room=room).order_by('created_at')  # Fetch messages by room
-        serializer = ChatMessageSerializer(messages, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-# Send a message to a room with an anonymous user
-
-  def send_message(request):
-    data = request.data
-    try:
-        # Save the message with the provided anonymous user and room
-        message = ChatMessage.objects.create(
-            user=data.get('user', 'Anonymous'),  # Use "Anonymous" as a fallback
-            text=data['text'],
-            room=data['room']
-        )
-        serializer = ChatMessageSerializer(message)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-# Report an inappropriate message
-
-  def report_message(request):
-    message_id = request.data.get('message_id')
-    try:
-        message = ChatMessage.objects.get(id=message_id)
-        # Create a new report for the message
-        Report.objects.create(message=message)
-        return Response({"status": "Message reported successfully"}, status=status.HTTP_200_OK)
-    except ChatMessage.DoesNotExist:
-        return Response({"error": "Message not found"}, status=status.HTTP_404_NOT_FOUND)
-    except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class ChatroomListView(APIView):
     model = ChatRoom
@@ -189,3 +144,20 @@ class ChatroomListView(APIView):
     def get_queryset(self):
         room_name = self.kwargs['room_name']  # Get the room name from the URL
         return ChatRoom.objects.filter(name=room_name)  # Fetch the chatroom by name
+class ChatMessageListView(APIView):
+
+    # Fetch messages for a specific room
+    def get(self, request, room_name):
+        try:
+            # Fetch the room by name (assuming room_name is unique)
+            room = ChatRoom.objects.get(name=room_name)
+            # Fetch messages for the specific room
+            messages = ChatMessage.objects.filter(room=room).order_by('created_at')
+            serializer = ChatMessageSerializer(messages, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except ChatRoom.DoesNotExist:
+            return Response({"error": "Room not found"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+

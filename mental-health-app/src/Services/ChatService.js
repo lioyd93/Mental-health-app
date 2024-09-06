@@ -1,19 +1,11 @@
-// ChatService.js
-import axios from 'axios';
+const getMessages = async (roomName) => {
+  const response = await fetch(`/api/chat-messages/${encodeURIComponent(roomName)}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch messages');
+  }
+  return response.json();  // Ensure the response is JSON
+};
 
-class ChatService {
-  API_URL = 'http://127.0.0.1:8000/api/chat-messages/';  // Adjust the URL as needed
-
-  getChatMessages = async () => {
-    try {
-      const response = await axios.get(this.API_URL);
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching chat messages:', error);
-      return [];
-    }
-  };
-}
-
-const chatServiceInstance = new ChatService();
-export default chatServiceInstance;
+export default {
+  getMessages,
+};

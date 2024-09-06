@@ -19,7 +19,7 @@ def homepage(request):
 
 
 urlpatterns = [
-    path('api/chat-messages/', ChatMessageListView.as_view(), name='chat-message-list'),
+  path('api/chat-messages/<str:room_name>/', ChatMessageListView.as_view(), name='chat-message-list'),  # Room-based chat messages
     path('chat/<str:room_name>/', ChatroomListView.as_view(), name='chat_room'),
     path('api/workshops/', WorkshopListView.as_view(), name='workshop-list'),
     path('api/resources/', ResourceList.as_view(), name='resource-list'),
