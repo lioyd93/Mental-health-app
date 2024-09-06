@@ -181,3 +181,11 @@ class ChatMessageListView(APIView):
         return Response({"error": "Message not found"}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class ChatroomListView(APIView):
+    model = ChatRoom
+    template_name = 'chatroom.html'  # The template that displays the room's messages
+
+    def get_queryset(self):
+        room_name = self.kwargs['room_name']  # Get the room name from the URL
+        return ChatRoom.objects.filter(name=room_name)  # Fetch the chatroom by name

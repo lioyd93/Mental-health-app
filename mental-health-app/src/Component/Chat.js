@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Typography, Card, CardContent, List, ListItem, ListItemText, Button } from '@mui/material';
+import { Box, Typography, Card, CardContent, List, ListItem, ListItemText, TextField, Button } from '@mui/material';
 import chatService from '../Services/ChatService'; // Assuming you have a service for chat functionality
 
-const ChatList = () => {
-  const { roomName } = useParams(); // Get room name from URL
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
+const ChatPage = () => {
+  const { roomName } = useParams(); // Get the room name from URL
+  const [messages, setMessages] = useState([]); // List of messages
+  const [newMessage, setNewMessage] = useState(''); // Message input
+  const socketRef = useRef(null); // WebSocket reference
 
-  // Fetch messages for the current room when component mounts
+  // Fetch messages for the current room when the component mounts
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const messageData = await chatService.getMessages(roomName);
+        const messageData = await chatService.getMessages(roomName); // Initial fetch from service
         setMessages(messageData);
       } catch (error) {
         console.error('Error fetching messages:', error);
@@ -21,18 +22,38 @@ const ChatList = () => {
     fetchMessages();
   }, [roomName]);
 
-  // Handle sending a new message
+  // Establish WebSocket connection
+  useEffect(() => {
+    socketRef.current = new WebSocket(`ws://localhost:8000/ws/chat/${roomName}/`);
+
+    socketRef.current.onopen = () => {
+      console.log('WebSocket connected');
+    };
+
+    socketRef.current.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      setMessages((prevMessages) => [...prevMessages, data.message]);
+    };
+
+    socketRef.current.onclose = () => {
+      console.log('WebSocket disconnected');
+    };
+
+    return () => {
+      socketRef.current.close();
+    };
+  }, [roomName]);
+
+  // Handle sending new message
   const handleSendMessage = async () => {
     if (newMessage.trim() === '') return;
-    try {
-      const message = await chatService.sendMessage({
-        text: newMessage,
-        room: roomName,
-      });
-      setMessages((prevMessages) => [...prevMessages, message]);
-      setNewMessage(''); // Clear input field after sending
-    } catch (error) {
-      console.error('Error sending message:', error);
+    
+    // Send message over WebSocket
+    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+      socketRef.current.send(JSON.stringify({
+        message: newMessage,
+      }));
+      setNewMessage('');
     }
   };
 
@@ -68,4 +89,4 @@ const ChatList = () => {
   );
 };
 
-export default ChatList;
+export default ChatPage;
