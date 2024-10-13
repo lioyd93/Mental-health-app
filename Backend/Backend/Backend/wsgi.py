@@ -1,16 +1,16 @@
-"""
-WSGI config for Backend project.
-
-It exposes the WSGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/5.0/howto/deployment/wsgi/
-"""
-
 import os
+from django.core.asgi import get_asgi_application
+from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.auth import AuthMiddlewareStack
 
-from django.core.wsgi import get_wsgi_application
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project_name.settings')
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Backend.settings')
-
-application = get_wsgi_application()
+application = ProtocolTypeRouter({
+    "http": get_asgi_application(),
+    # Define WebSocket handling here later when using channels.routing
+    "websocket": AuthMiddlewareStack(
+        URLRouter(
+            # Your routing configurations for WebSocket
+        )
+    ),
+})
