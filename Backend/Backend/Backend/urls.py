@@ -3,6 +3,7 @@ from django.urls import path
 from django.http import HttpResponse
 from mental_health_app.views import (
     ChatMessageListView,
+    ChatroomListView,
     WorkshopListView,
     ResourceList,
     EventList,
@@ -18,7 +19,8 @@ def homepage(request):
 
 
 urlpatterns = [
-    path('api/chat-messages/', ChatMessageListView.as_view(), name='chat-message-list'),
+  path('api/chat-messages/<str:room_name>/', ChatMessageListView.as_view(), name='chat-message-list'),  # Room-based chat messages
+    path('chat/<str:room_name>/', ChatroomListView.as_view(), name='chat_room'),
     path('api/workshops/', WorkshopListView.as_view(), name='workshop-list'),
     path('api/resources/', ResourceList.as_view(), name='resource-list'),
     path('api/events/', EventList.as_view(), name='event-list'),

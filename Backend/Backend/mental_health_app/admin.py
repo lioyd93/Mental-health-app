@@ -13,9 +13,9 @@ class WorkshopAdmin(admin.ModelAdmin):
 class ResourceAdmin(admin.ModelAdmin):
     list_display = ['title', 'description', 'link']  # Display these fields in the list view
 
-class ChatMessageAdmin(admin.ModelAdmin):
+""" class ChatMessageAdmin(admin.ModelAdmin):
     list_display = ['user', 'message']  # Display these fields in the list view
-    list_filter = ['user']  # Filter by user and creation date
+    list_filter = ['user']  # Filter by user and creation date """
 
 class ForumCategoryAdmin(admin.ModelAdmin):
     list_display = ['name']  # Display category name in the list view
@@ -34,7 +34,7 @@ class ForumPostAdmin(admin.ModelAdmin):
 admin.site.register(Event, EventAdmin)
 admin.site.register(Workshop, WorkshopAdmin)
 admin.site.register(Resource, ResourceAdmin)
-admin.site.register(ChatMessage, ChatMessageAdmin)
+""" admin.site.register(ChatMessage, ChatMessageAdmin) """
 admin.site.register(ForumCategory, ForumCategoryAdmin)
 admin.site.register(ForumTopic, ForumTopicAdmin)
 admin.site.register(ForumPost, ForumPostAdmin)

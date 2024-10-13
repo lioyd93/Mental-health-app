@@ -2,11 +2,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
+from django.http import JsonResponse
+from .models import ChatRoom
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import (
     Event,
     ChatMessage,
+    Report,
     Workshop,
     Resource,
     ForumCategory,
@@ -101,12 +104,6 @@ class ResourceList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ChatMessageListView(APIView):
-    def get(self, request):
-        chat_messages = ChatMessage.objects.all()
-        serializer = ChatMessageSerializer(chat_messages, many=True)
-        return Response(serializer.data)
-
 class EventList(APIView):
     def get(self, request):
         events = Event.objects.all()
@@ -137,3 +134,30 @@ class ForumPostListView(APIView):
         posts = ForumPost.objects.all()
         serializer = ForumPostSerializer(posts, many=True)
         return Response(serializer.data)
+
+    # Fetch messages for a specific room
+
+class ChatroomListView(APIView):
+    model = ChatRoom
+    template_name = 'chatroom.html'  # The template that displays the room's messages
+
+    def get_queryset(self):
+        room_name = self.kwargs['room_name']  # Get the room name from the URL
+        return ChatRoom.objects.filter(name=room_name)  # Fetch the chatroom by name
+class ChatMessageListView(APIView):
+
+    # Fetch messages for a specific room
+    def get(self, request, room_name):
+        try:
+            # Fetch the room by name (assuming room_name is unique)
+            room = ChatRoom.objects.get(name=room_name)
+            # Fetch messages for the specific room
+            messages = ChatMessage.objects.filter(room=room).order_by('created_at')
+            serializer = ChatMessageSerializer(messages, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except ChatRoom.DoesNotExist:
+            return Response({"error": "Room not found"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+

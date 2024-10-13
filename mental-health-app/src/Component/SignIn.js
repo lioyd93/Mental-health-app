@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -19,6 +19,15 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  useEffect(() => {
+    // Check if the user is already logged in by looking for a token in localStorage
+    const token = localStorage.getItem('token');
+    if (token) {
+      // Redirect to home or dashboard if token exists
+      window.location.href = '../Pages/Home';
+    }
+  }, []);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -28,11 +37,18 @@ export default function SignIn() {
         username: username,
         password: password,
       });
+      // Save token in localStorage
+      localStorage.setItem('token', response.data.token);
       console.log('Sign in successful', response.data);
+<<<<<<< HEAD
       localStorage.setItem('authToken', response.data.token);
 localStorage.setItem('isAuthenticated', true);
 
       window.location.href = '../Pages/Home'; // Redirect to dashboard after successful sign-in
+=======
+      // Redirect to home or dashboard after successful sign-in
+      window.location.href = '../Pages/Home';
+>>>>>>> 52d6317a569dc4825876e62738bc2fcb484fbd98
     } catch (error) {
       console.error('Sign in error:', error.response?.data || 'Unknown error');
       localStorage.removeItem('authToken');
@@ -40,6 +56,7 @@ localStorage.setItem('isAuthenticated', false);
       setError('Failed to sign in: ' + (error.response?.data?.error || 'Unknown error'));
     }
   };
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
