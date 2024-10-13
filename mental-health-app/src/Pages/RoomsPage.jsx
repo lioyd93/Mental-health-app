@@ -1,39 +1,56 @@
-import React from 'react';
-import { Box, Typography, List, ListItem, ListItemText, Card, CardContent } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Box, Typography, Button, List, ListItem, ListItemText, Paper } from '@mui/material';
 
 const RoomsPage = () => {
-  const navigate = useNavigate();
+  const [rooms, setRooms] = useState([]);
 
-  // Static list of rooms
-  const rooms = [
-    { id: 1, name: 'General' },
-    { id: 2, name: 'Anxiety Room' },
-    { id: 3, name: 'Stress Room' },
-    { id: 4, name: 'Depression Room' }
-  ];
-
-  // Handle room click and navigate to the chat page for that room
-  const handleRoomClick = (roomName) => {
-    navigate(`/chat/${roomName}`);
-  };
+  useEffect(() => {
+    // Fetch rooms from the backend
+    const fetchRooms = async () => {
+      try {
+        const response = await fetch('/api/rooms/');
+        const data = await response.json();
+        setRooms(data);
+      } catch (error) {
+        console.error('Error fetching rooms:', error);
+      }
+    };
+    fetchRooms();
+  }, []);
 
   return (
     <Box sx={{ p: 4 }}>
-      <Typography variant="h4" component="h1" gutterBottom align="center">
+      <Typography variant="h4" align="center" gutterBottom>
         Available Chat Rooms
       </Typography>
-      <Card>
-        <CardContent>
-          <List>
-            {rooms.map((room) => (
-              <ListItem button key={room.id} onClick={() => handleRoomClick(room.name)}>
-                <ListItemText primary={room.name} />
-              </ListItem>
-            ))}
-          </List>
-        </CardContent>
-      </Card>
+      <Paper
+        elevation={3}
+        sx={{
+          width: '100%',
+          maxWidth: 600,
+          margin: '0 auto',
+          p: 2,
+          backgroundColor: '#f0f2f5',
+          borderRadius: '10px',
+        }}
+      >
+        <List>
+          {rooms.map((room) => (
+            <ListItem key={room.id}>
+              <ListItemText primary={room.name} />
+              <Button
+                component={Link}
+                to={`/chat/${room.name}`}
+                variant="contained"
+                color="primary"
+              >
+                Join
+              </Button>
+            </ListItem>
+          ))}
+        </List>
+      </Paper>
     </Box>
   );
 };

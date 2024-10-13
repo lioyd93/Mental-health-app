@@ -30,7 +30,7 @@ root.render(
           <Route path="/Pages/Home" element={<Home />} />
           <Route path="/Pages/About" element={<About />} />
           <Route path="/Pages/RoomsPage" element={<RoomsPage />} />
-          <Route path="/chat/:roomName" element={<ChatPage />} /> 
+          <Route path="/Pages/ChatPage" element={<ChatPage />} /> 
           <Route path="/Pages/EventsPage" element={<EventsPage />} />
           <Route path="/Pages/ForumCategoriesPage" element={<ForumCategoriesPage />} />
           <Route path="/Pages/WorkshopsPage" element={<WorkshopsPage />} />

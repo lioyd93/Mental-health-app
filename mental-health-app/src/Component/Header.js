@@ -32,7 +32,7 @@ const Header = () => {
           <Button color="inherit" component={Link} to="/Pages/About">About</Button>
           {isAuthenticated ? (
             <>
-              <Button color="inherit" component={Link} to="/Pages/ChatPage">Chat</Button>
+              <Button color="inherit" component={Link} to="/Pages/RoomsPage">Chat Rooms</Button>
               <Button color="inherit" component={Link} to="/Pages/EventsPage">Events</Button>
               <Button color="inherit" component={Link} to="/Pages/ForumCategoriesPage">Forum</Button>
               <Button color="inherit" component={Link} to="/Pages/WorkshopsPage">Workshops</Button>

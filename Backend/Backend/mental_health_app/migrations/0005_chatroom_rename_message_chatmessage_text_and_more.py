@@ -24,10 +24,7 @@ class Migration(migrations.Migration):
             old_name='message',
             new_name='text',
         ),
-        migrations.RemoveField(
-            model_name='event',
-            name='description',
-        ),
+       
         migrations.AddField(
             model_name='chatmessage',
             name='room',

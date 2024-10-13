@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Typography,  List, ListItem, ListItemText, TextField, Button, Paper } from '@mui/material';
-import chatService from '../Services/ChatService'; // Assuming chatService handles message fetching and sending
+import { Box, Typography, List, ListItem, ListItemText, TextField, Button, Paper } from '@mui/material';
+import chatService from '../Services/ChatService';
 
-const ChatPage = () => {
+const Chat = () => {
   const { roomName } = useParams(); // Get the room name from URL
   const [messages, setMessages] = useState([]); // List of all messages in the room
   const [newMessage, setNewMessage] = useState(''); // Current message input
@@ -16,6 +16,7 @@ const ChatPage = () => {
       try {
         const messageData = await chatService.getMessages(roomName); // Initial fetch from service
         setMessages(messageData);
+        scrollToBottom(); // Scroll after messages are loaded
       } catch (error) {
         console.error('Error fetching messages:', error);
       }
@@ -42,7 +43,9 @@ const ChatPage = () => {
     };
 
     return () => {
-      socketRef.current.close();
+      if (socketRef.current) {
+        socketRef.current.close(); // Clean up the WebSocket connection when component unmounts
+      }
     };
   }, [roomName]);
 
@@ -52,9 +55,9 @@ const ChatPage = () => {
   };
 
   // Handle sending a new message
-  const handleSendMessage = async () => {
+  const handleSendMessage = () => {
     if (newMessage.trim() === '') return;
-    
+
     // Send message over WebSocket
     if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
       socketRef.current.send(JSON.stringify({
@@ -142,4 +145,4 @@ const ChatPage = () => {
   );
 };
 
-export default ChatPage;
+export default Chat;
