@@ -29,9 +29,14 @@ export default function SignIn() {
         password: password,
       });
       console.log('Sign in successful', response.data);
+      localStorage.setItem('authToken', response.data.token);
+localStorage.setItem('isAuthenticated', true);
+
       window.location.href = '../Pages/Home'; // Redirect to dashboard after successful sign-in
     } catch (error) {
       console.error('Sign in error:', error.response?.data || 'Unknown error');
+      localStorage.removeItem('authToken');
+localStorage.setItem('isAuthenticated', false);
       setError('Failed to sign in: ' + (error.response?.data?.error || 'Unknown error'));
     }
   };

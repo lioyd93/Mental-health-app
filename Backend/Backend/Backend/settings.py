@@ -98,7 +98,8 @@ DATABASES = {
 }
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',  # Example: Allow requests from the React development server
-    'http://localhost:3001',    # Add more origins as needed
+    'http://localhost:3001',    
+    'http://192.168.1.5:3000',
 ]
 
 
